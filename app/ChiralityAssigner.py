@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-FILE_PATH = './data/table.xlsx'
+FILE_PATH = './data/table.csv'
 
 Eii = {1: 'S11', 2: 'S22', 3: 'M11', 4: 'S33', 5: 'S44', 6: 'M22', 7: 'S55', 8: 'S66', 9: 'M33', 10: 'S77'}
 
@@ -115,7 +115,7 @@ def calc_diameter(n, m):
 
 class Assigner:
     def __init__(self, path='./table.xlsx'):
-        self.df = pd.read_excel(path, index_col=0)
+        self.df = pd.read_csv(path, index_col=0)
         self.df.fillna(0, inplace=True)
         self.peaks = []
         self.assignment_each = {}
