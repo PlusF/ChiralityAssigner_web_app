@@ -1,3 +1,5 @@
+import os
+
 from PIL import Image, ImageDraw
 import streamlit as st
 from ChiralityAssigner import Assigner, calc_diameter
