@@ -1,7 +1,9 @@
-import time
 from PIL import Image, ImageDraw
 import streamlit as st
 from ChiralityAssigner import Assigner, calc_diameter
+
+st.set_page_config(layout="wide")
+
 
 OFFSET = (140, 190)
 HEIGHT = (4261 - 190) / 31
