@@ -1,5 +1,4 @@
-import os
-
+import time
 from PIL import Image, ImageDraw
 import streamlit as st
 from ChiralityAssigner import Assigner, calc_diameter
@@ -95,15 +94,15 @@ def main():
     with row1:
         with col1:
             with st.form('form_assign'):
-                st.write('Peak energies')
-                first_energy = st.text_input('first')
-                second_energy = st.text_input('second')
-                third_energy = st.text_input('third')
-                checkbox_single = st.checkbox('single')
-                checkbox_double = st.checkbox('double')
-                checkbox_triple = st.checkbox('triple')
+                st.write('Peak energies [eV]')
+                first_energy = st.number_input('first', 0.0, 5.0, 1.0)
+                second_energy = st.number_input('second', 0.0, 5.0, 2.0)
+                third_energy = st.number_input('third', 0.0, 5.0, 3.0)
+                checkbox_single = st.checkbox('single', True)
+                checkbox_double = st.checkbox('double', True)
+                checkbox_triple = st.checkbox('triple', True)
                 hit_list = [checkbox_single, checkbox_double, checkbox_triple]
-                top = st.text_input('Top', '5')
+                top = st.number_input('Top', 1, 100, 5)
 
                 submitted = st.form_submit_button('Assign')
                 if submitted:
@@ -112,6 +111,7 @@ def main():
                         try:
                             peaks.append(float(e))
                         except ValueError:
+                            print(e)
                             print('skipped')
                     ca.assign(peaks)
 
@@ -126,14 +126,17 @@ def main():
         row2 = st.container()
         with row2:
             num_cols = sum(hit_list)
-            cols = st.columns(num_cols)
-            ind = 0
-            for i in range(3):
-                if not hit_list[i]:
-                    continue
-                with cols[ind]:
-                    st.code(msg_all[ind], language='js')
-                ind += 1
+            if num_cols == 0:
+                print('must check at least one')
+            else:
+                cols = st.columns(num_cols)
+                ind = 0
+                for i in range(3):
+                    if not hit_list[i]:
+                        continue
+                    with cols[ind]:
+                        st.code(msg_all[ind], language='js')
+                    ind += 1
 
 
 if __name__ == '__main__':
